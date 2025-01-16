@@ -19,7 +19,7 @@ export class Bank implements BankType {
      * @param username - account username
      * @param age - account age
      * @param accountNumber - account number
-     * @returns - account if validation passes
+     * @returns account if validation passes
      */
     createAccount(username: string, age: number, accountNumber: number): AccountType {
         // Validation of input data
