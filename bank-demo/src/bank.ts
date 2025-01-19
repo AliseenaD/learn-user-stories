@@ -23,14 +23,14 @@ export class Bank implements BankType {
      */
     createAccount(username: string, age: number, accountNumber: number): AccountType {
         // Validation of input data
+        if (age < 18) {
+            throw new Error('Age is below 18');
+        }
         if (this.isAccountNumberInvalid(accountNumber)) {
             throw new Error('Invalid account number');
         }
-        if (this.isUsernameExists(username)) {
-            throw new Error('Username exists');
-        }
-        if (age < 18) {
-            throw new Error('Age is below 18');
+        if (!this.isUsernameExists(username)) {
+            throw new Error('Username does not exist');
         }
         if (this.findAccountById(accountNumber)) {
             throw new Error('Account alraedy exists');
@@ -71,5 +71,35 @@ export class Bank implements BankType {
      */
     private isUsernameExists(username: string): boolean {
         return this.usernames.includes(username);
+    }
+
+    /**
+     * Deposits money into a user's account 
+     * @param username - username
+     * @param accountNumber - user account number
+     * @param amount - amount of money to deposit
+     * @returns the account if balance was successfully updated
+     */
+    public depositMoney(username: string, accountNumber: number, amount: number): AccountType {
+        // Validation checks
+        if (amount < 0) {
+            throw new Error('Cannot deposit a negative value');
+        }
+        if (this.isAccountNumberInvalid(accountNumber)) {
+            throw new Error('Invalid account number');
+        }
+        if (!this.isUsernameExists(username)) {
+            throw new Error('Username does not exist');
+        }
+
+        // Set amount
+        const specificAccount = this.accounts.find(account => account.id === accountNumber);
+        if (specificAccount) {
+            specificAccount.balance = amount;
+            return specificAccount;
+        }
+        else {
+            throw new Error('Cannot find user given the credentials');
+        }
     }
 }
