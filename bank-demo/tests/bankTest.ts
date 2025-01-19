@@ -52,88 +52,139 @@ catch(e) {
 
 console.log('Beginning deposit money tests...');
 
- // Depositing money Scenario 1: Successful deposit
- bank.createAccount('user2', 30, 1233242456);
- const postDeposit = bank.depositMoney('user2', 1233242456, 51000);
- if (postDeposit.balance !== 51000) {
+// Depositing money Scenario 1: Successful deposit
+bank.createAccount('user2', 30, 1233242456);
+const postDeposit = bank.depositMoney('user2', 1233242456, 51000);
+if (postDeposit.balance !== 51000) {
     console.log('Test failed');
- }
- else {
+}
+else {
     console.log('Scenario 1 passed');
- }
+}
 
- // Depositing money Scenario 2: Unsucessful deposit due to invalid account number
- try {
+// Depositing money Scenario 2: Unsucessful deposit due to invalid account number
+try {
     bank.depositMoney('user2', 2315467893, 1220);
-    console.log('Scenario 2 failed');
- }
- catch(e) {
-    console.log('Scenario 2 passed');
- }
+    console.log('Scenario 2 part 1 failed');
+}
+catch(e) {
+    console.log('Scenario 2 part 1 passed');
+}
+try {
+    bank.depositMoney('user2', 22, 1220);
+    console.log('Scenario 2 part 2 failed');
+}
+catch(e) {
+    console.log('Scenario 2 part 2 passed');
+}
 
- // Depositing money Scenario 3: Unsuccessful deposit due to invalid username
- try {
+// Depositing money Scenario 3: Unsuccessful deposit due to invalid username
+try {
     bank.depositMoney('user5', 1233242456, 100);
     console.log('Scenario 3 failed');
- }
- catch(e) {
+}
+catch(e) {
     console.log('Scenario 3 passed');
- }
+}
 
- // Depositing money Scenario 4: Unsuccessful deposit due to invalid amount
- try {
-    bank.depositMoney('user2', 1233242456, -100);
+// Depositing money Scenario 4: Unsuccessful deposit due to invalid amount
+try {
+bank.depositMoney('user2', 1233242456, -100);
     console.log('Scenario 4 failed');
- }
- catch(e) {
+}
+catch(e) {
     console.log('Scenario 4 passed');
- }
+}
 
- console.log('Beginning withdraw money tests...');
+console.log('Beginning withdraw money tests...');
 
- // Withdrawing money Scenario 1: Successful withdrawal
- bank.createAccount('user2', 28, 1909873645);
- bank.depositMoney('user2', 1909873645, 100);
- const account = bank.withdrawMoney('user2', 1909873645, 50);
- if (account.balance !== 50) {
+// Withdrawing money Scenario 1: Successful withdrawal
+bank.createAccount('user2', 28, 1909873645);
+bank.depositMoney('user2', 1909873645, 100);
+const account = bank.withdrawMoney('user2', 1909873645, 50);
+if (account.balance !== 50) {
     console.log('Scenario 1 failed');
- }
- else {
+}
+else {
     console.log('Scenario 1 passed');
- }
+}
 
 // Withdrawing money Scenario 2: Unsucessful withdrawal due to invalid account number
 try {
     bank.withdrawMoney('user2', 2315467893, 1220);
     console.log('Scenario 2 failed');
- }
- catch(e) {
-    console.log('Scenario 2 passed');
- }
+}
+catch(e) {
+    console.log('Scenario 2 part 1 passed');
+}
+try {
+    bank.withdrawMoney('user2', 22, 1220);
+    console.log('Scenario 2 failed');
+}
+catch(e) {
+    console.log('Scenario 2 part 2 passed');
+}
 
- // Withdrawing money Scenario 3: Unsuccessful withdrawal due to invalid username
- try {
+// Withdrawing money Scenario 3: Unsuccessful withdrawal due to invalid username
+try {
     bank.withdrawMoney('user5', 1909873645, 10);
     console.log('Scenario 3 failed');
- }
- catch(e) {
+}
+catch(e) {
     console.log('Scenario 3 passed');
- }
+}
 
- // Withdrawing money Scenario 4: Unsuccessful withdrawal due to invalid amount
- try {
+// Withdrawing money Scenario 4: Unsuccessful withdrawal due to invalid amount
+try {
     bank.withdrawMoney('user2', 1909873645, -50);
     console.log('Scenario 4 failed');
- }
- catch(e) {
+}
+catch(e) {
     console.log('Scenario 4 passed');
- }
+}
 
- // Withdrawing money Scenario 5: Unsuccessful withdrawal due to negative remaining balance
- try {
+// Withdrawing money Scenario 5: Unsuccessful withdrawal due to negative remaining balance
+try {
     bank.withdrawMoney('user2', 1909873645, 5000);
     console.log('Scenario 5 failed');
- }
- catch(e) {
+}
+catch(e) {
     console.log('Scenario 5 passed');
- }
+}
+
+console.log('Beginning check account balance tests...');
+
+// Check balance Scenario 1: Successful check
+bank.createAccount('user2', 24, 7675846372);
+bank.depositMoney('user2', 7675846372, 500);
+if (bank.checkBalance('user2', 7675846372) !== 500) {
+    console.log('Scenario 1 failed');
+}
+else {
+    console.log('Scenario 1 passed');
+}
+
+// Check balance Scenario 2: Unsuccessful check due to invalid username
+try {
+    bank.checkBalance('user4', 7675846372);
+    console.log('Scenario 2 failed');
+}
+catch(e) {
+    console.log('Scenario 2 passed');
+}
+
+// Check balance Scenario 3: Unsuccessful check due to invalid account number
+try {
+    bank.checkBalance('user2', 1236758473);
+    console.log('Scenario 3 part 1 failed')
+}
+catch(e) {
+    console.log('Scenario 3 part 1 passed')
+}
+try {
+    bank.checkBalance('user2', 23);
+    console.log('Scenario 3 part 2 failed')
+}
+catch(e) {
+    console.log('Scenario 3 part 2 passed')
+}

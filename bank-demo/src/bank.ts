@@ -73,6 +73,23 @@ export class Bank implements BankType {
         return this.usernames.includes(username);
     }
 
+    public checkBalance(username: string, accountNumber: number): number {
+        // Validation checks
+        if (this.isAccountNumberInvalid(accountNumber)) {
+            throw new Error('Invalid account number');
+        }
+        if (!this.isUsernameExists(username)) {
+            throw new Error('Username does not exist');
+        }
+
+        // Get account balance (throw error if no account found)
+        const account = this.findAccountById(accountNumber);
+        if (!account) {
+            throw new Error('No user account found');
+        }
+        return account.balance;
+    }
+
     /**
      * Deposits money into a user's account 
      * @param username - username
@@ -93,7 +110,7 @@ export class Bank implements BankType {
         }
 
         // Set amount
-        const specificAccount = this.accounts.find(account => account.id === accountNumber);
+        const specificAccount = this.findAccountById(accountNumber);
         if (specificAccount) {
             specificAccount.balance += amount;
             return specificAccount;
@@ -123,7 +140,7 @@ export class Bank implements BankType {
         }
 
         // Get account 
-        const specificAccount = this.accounts.find(account => account.id === accountNumber);
+        const specificAccount = this.findAccountById(accountNumber);
         if (!specificAccount) {
             throw new Error('Cannot find user given the credentials');
         }
