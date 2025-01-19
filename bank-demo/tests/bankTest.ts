@@ -88,3 +88,52 @@ console.log('Beginning deposit money tests...');
  catch(e) {
     console.log('Scenario 4 passed');
  }
+
+ console.log('Beginning withdraw money tests...');
+
+ // Withdrawing money Scenario 1: Successful withdrawal
+ bank.createAccount('user2', 28, 1909873645);
+ bank.depositMoney('user2', 1909873645, 100);
+ const account = bank.withdrawMoney('user2', 1909873645, 50);
+ if (account.balance !== 50) {
+    console.log('Scenario 1 failed');
+ }
+ else {
+    console.log('Scenario 1 passed');
+ }
+
+// Withdrawing money Scenario 2: Unsucessful withdrawal due to invalid account number
+try {
+    bank.withdrawMoney('user2', 2315467893, 1220);
+    console.log('Scenario 2 failed');
+ }
+ catch(e) {
+    console.log('Scenario 2 passed');
+ }
+
+ // Withdrawing money Scenario 3: Unsuccessful withdrawal due to invalid username
+ try {
+    bank.withdrawMoney('user5', 1909873645, 10);
+    console.log('Scenario 3 failed');
+ }
+ catch(e) {
+    console.log('Scenario 3 passed');
+ }
+
+ // Withdrawing money Scenario 4: Unsuccessful withdrawal due to invalid amount
+ try {
+    bank.withdrawMoney('user2', 1909873645, -50);
+    console.log('Scenario 4 failed');
+ }
+ catch(e) {
+    console.log('Scenario 4 passed');
+ }
+
+ // Withdrawing money Scenario 5: Unsuccessful withdrawal due to negative remaining balance
+ try {
+    bank.withdrawMoney('user2', 1909873645, 5000);
+    console.log('Scenario 5 failed');
+ }
+ catch(e) {
+    console.log('Scenario 5 passed');
+ }

@@ -95,11 +95,46 @@ export class Bank implements BankType {
         // Set amount
         const specificAccount = this.accounts.find(account => account.id === accountNumber);
         if (specificAccount) {
-            specificAccount.balance = amount;
+            specificAccount.balance += amount;
             return specificAccount;
         }
         else {
             throw new Error('Cannot find user given the credentials');
         }
+    }
+
+    /**
+     * Withdraws moeny from a user's account
+     * @param username - username
+     * @param accountNumber - account number
+     * @param amount - withdrawal amount
+     * @returns the account if balance was successfully updated
+     */
+    public withdrawMoney(username: string, accountNumber: number, amount: number): AccountType {
+        // Validation checks
+        if (amount < 0) {
+            throw new Error('Cannot deposit a negative value');
+        }
+        if (this.isAccountNumberInvalid(accountNumber)) {
+            throw new Error('Invalid account number');
+        }
+        if (!this.isUsernameExists(username)) {
+            throw new Error('Username does not exist');
+        }
+
+        // Get account 
+        const specificAccount = this.accounts.find(account => account.id === accountNumber);
+        if (!specificAccount) {
+            throw new Error('Cannot find user given the credentials');
+        }
+
+        // Check has enough money 
+        if (specificAccount.balance < amount) {
+            throw new Error('Withdrawal would lead to negative balance');
+        }
+
+        // Set balance
+        specificAccount.balance -= amount;
+        return specificAccount;
     }
 }
